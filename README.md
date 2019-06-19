@@ -1,7 +1,7 @@
 # hci
 
 
-# Windows
+# Windows docker install/ ansible container setup
 
 **Before you begin** 
 
@@ -24,17 +24,7 @@
 
 Once all 3 prerequisite steps are completed, we can proceed
 
-**Steps:**
-
-1.)	Run either Command Prompt (CMD) or PowerShell (PS) on your windows machine
-
-2.)	Once CMD/PS is running type “docker run -it schmots1/netapp-ansible bash”  This will pull the latest image for the docker ansible container
-
-3.)	Once the image has been downloaded you will see [root@63........./]#. Enter “git clone https://github.com/infragilis/hci”
-
-4.)	This will trigger the cloning into ‘hci’ and you will enter your username for github then enter your password in github. This will pull the repository into the docker ansible container  
-
-# RHEL/Linux
+# RHEL/Linux docker install/ ansible container setup
 Please follow your specific OS instructions form the official Ansible documentation here: 
 https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
@@ -49,6 +39,16 @@ yum install rhel-7-server-extras-rpms
 yum install http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm  
 yum install ansible  
 yum install git 
+
+**Steps to setup your container:**
+
+1.)	Run either Command Prompt (CMD) or PowerShell (PS) on your windows machine
+
+2.)	Once CMD/PS is running type “docker run -it schmots1/netapp-ansible bash”  This will pull the latest image for the docker ansible container
+
+3.)	Once the image has been downloaded you will see [root@63........./]#. Enter “git clone https://github.com/infragilis/hci”
+
+4.)	This will trigger the cloning into ‘hci’ and you will enter your username for github then enter your password in github. This will pull the repository into the docker ansible container  
 
 
 
