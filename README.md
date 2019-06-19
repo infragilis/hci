@@ -33,3 +33,21 @@ Once all 3 prerequisite steps are completed, we can proceed
 3.)	Once the image has been downloaded you will see [root@63........./]#. Enter “git clone https://github.com/infragilis/hci”
 
 4.)	This will trigger the cloning into ‘hci’ and you will enter your username for github then enter your password in github. This will pull the repository into the docker ansible container  
+
+# RHEL
+1.2 Install Ansible
+Please follow your specific OS instructions form the official Ansible documentation here: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+
+The following commands need to be run on the RedHat 7.5 host to complete the Ansible install, and dependencies on your server OS. The following is an example for RedHat 7.5,
+
+subscription-manager register --username your_username --password your_password
+yum install python-pip python-wheel
+pip install --upgrade pip
+pip install ansible-lint
+pip install netapp-lib
+yum install rhel-7-server-extras-rpms
+yum install http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum install ansible
+yum install git
+
+
