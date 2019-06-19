@@ -40,7 +40,7 @@ yum install http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rp
 yum install ansible  
 yum install git 
 
-**Steps to setup your container:**
+**1 Steps to setup your container:**
 
 1.)	Run either Command Prompt (CMD) or PowerShell (PS) on your windows machine
 
@@ -50,5 +50,12 @@ yum install git
 
 4.)	This will trigger the cloning into ‘hci’ and you will enter your username for github then enter your password in github. This will pull the repository into the docker ansible container  
 
+**2  NetApp cluster settings**  
+Create a user and set the password for the ansible account:  
+Cluster::>security login create -user-or-group-name ansible -application ontapi -authentication-method password -role admin  
 
+Enable the API endpoint on the cluster in advanced mode:
+
+Cluster::> set adv  
+Cluster::> system services web modify -http-enabled true 
 
