@@ -1,8 +1,0 @@
-- name: test ping mesh validator
-  hosts: localhost
-  connection: local
-  tasks:
-  - name: run the module
-    ping_test:
-      report: 'ping_test.xlsx'
-      limit: 60
