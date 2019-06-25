@@ -1,9 +1,8 @@
 #!/bin/bash
 # this will get the container updated with python3, and the pstools mod moved to the correct location
-mv -r ansible/lib/ansible/* /usr/lib/python2.7/site-packages/ansible
+yum -y install python36-setuptools
+easy_install-3.6 pip
+pip3 install ansible
+mv -r ansible/lib/ansible/* /usr/local/lib/python3.6/site-packages/ansible
 mv ansible /tmp/
-cp /usr/lib/python2.7/site-packages/ansible/modules/pstools/testping.yml /hci
-yum install -y https://centos7.iuscommunity.org/ius-release.rpm
-yum -y update
-yum -y install -y python36u python36u-libs python36u-devel python36u-pip
-python3.6 -V 
+cp /usr/local/lib/python3.6/site-packages/ansible/modules/pstools/testping.yml /hci
