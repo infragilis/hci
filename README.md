@@ -50,6 +50,25 @@ yum install git
 
 4.)	This will trigger the cloning into ‘hci’ and you will enter your username for github then enter your password in github. This will pull the repository into the docker ansible container  
 
+
+# Running Startup script:
+
+Once you’ve successfully set up your container enter “cd hci”. 
+
+The “[root@#######....... /]#” should change to “[root@#######.... hci]#” then enter ” ./setup.sh”.  
+This will:
+
+Install Python3
+
+Upgrade Ansible to use Python3
+
+Pull in the repo with the ping module and copies it to the right location
+
+Converts the playbook from dos file format to linux
+
+Create missing files
+
+
 # NetApp cluster settings 
 Create a user and set the password for the ansible account:  
 Cluster::>security login create -user-or-group-name ansible -application ontapi -authentication-method password -role admin  
