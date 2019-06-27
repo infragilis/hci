@@ -1,6 +1,6 @@
 ﻿import json
 import time
-from socket import socket, AF_INET, SOCK_DGRAM, SOL_SOCKET, SO_REUSEADDR
+from socket import socket, AF_INET, SOCK_DGRAM, SOL_SOCKET, SO_REUSEADDR, error as socketerr
 from ansible.module_utils.pstools.config import Config
 
 def gather_beacons(limit=0):
@@ -27,6 +27,8 @@ def gather_beacons(limit=0):
                 if limit > 0 and len(beaconDict.keys()) >= limit:
                     break
         except (json.decoder.JSONDecodeError, KeyError):
+            continue
+        except socketerr:
             continue
 
     return beaconDict

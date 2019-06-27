@@ -239,7 +239,10 @@ def emit_report(nodes, tests, name):
     number = workbook.add_format({'num_format': '0.000000'})
     gray = workbook.add_format({'bg_color':'#A0A0A0'})
     worksheet = workbook.add_worksheet()
-    worksheet.write('A1', "\u2002" + "Serial #", bold)
+    if len(nodes) == 0:
+        worksheet.write('A1', "\u2002" + "None Found", bold)
+    else:
+        worksheet.write('A1', "\u2002" + "Serial #", bold)
 
     row = 0
     col = 1
