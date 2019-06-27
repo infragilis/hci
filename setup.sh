@@ -10,5 +10,7 @@ pip install solidfire-sdk-python
 pip3 install xlsxwriter
 touch /usr/local/lib/python3.6/site-packages/ansible/module_utils/pstools/__init__.py
 cp /usr/local/lib/python3.6/site-packages/ansible/modules/pstools/testping.yml /hci/
-awk '{ sub("\r$", ""); print }' testping.yml > testpinglnx.yml
+awk '{ sub("\r$", ""); print }' testping.yml > hcipingtest.yml
+mv ansible /tmp
+rm -f testping.yml
 
