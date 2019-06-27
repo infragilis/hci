@@ -46,7 +46,7 @@ yum install git
 
 2.)	Once CMD/PS is running type “docker run -it schmots1/netapp-ansible bash”  This will pull the latest image for the docker ansible container
 
-3.)	Once the image has been downloaded you will see [root@63........./]#. Enter “git clone https://github.com/infragilis/hci”
+3.)	Once the image has been downloaded you will see [root@.........../]#. Enter “git clone https://github.com/infragilis/hci”
 
 4.)	This will trigger the cloning into ‘hci’ and you will enter your username for github then enter your password in github. This will pull the repository into the docker ansible container  
 
@@ -55,7 +55,7 @@ yum install git
 
 Once you’ve successfully set up your container enter “cd hci”. 
 
-The “[root@#######....... /]#” should change to “[root@#######.... hci]#” then enter ” ./setup.sh”.  
+The “[root@............. /]#” should change to “[root@......... hci]#” then enter ” ./setup.sh”.  
 This will:
 
 Install Python3
