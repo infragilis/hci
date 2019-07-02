@@ -8,6 +8,11 @@ cp -r /hci/ansible/lib/ansible/modules/pstools/ /usr/local/lib/python3.6/site-pa
 pip install netapp-lib
 pip install solidfire-sdk-python
 pip3 install xlsxwriter
+chkconfig iptables on
+iptables -A INPUT -p udp --dport 2020 -j ACCEPT
+iptables -A OUTPUT -p udp --dport 2020 -j ACCEPT
+service iptables save
+
 touch /usr/local/lib/python3.6/site-packages/ansible/module_utils/pstools/__init__.py
 cp /usr/local/lib/python3.6/site-packages/ansible/modules/pstools/testping.yml /hci/
 awk '{ sub("\r$", ""); print }' testping.yml > hcipingtest.yml
