@@ -53,6 +53,7 @@ yum install git
 5.)	some useful docker commands:
     docker ps --all will display all running containers  
     docker attach <containername> will put your back in your container after you disconnect
+    docker start <containername> will start you previously created container back up 
 
 # Running Startup script:
 
