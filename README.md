@@ -50,6 +50,9 @@ yum install git
 
 4.)	This will trigger the cloning into ‘hci’ and you will enter your username for github then enter your password in github. This will pull the repository into the docker ansible container  
 
+5.)	some useful docker commands:
+    docker ps --all will display all running containers  
+    docker attach <containername> will put your back in your container after you disconnect
 
 # Running Startup script:
 
