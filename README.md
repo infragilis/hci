@@ -44,7 +44,8 @@ yum install git
 
 1.)	Run either Command Prompt (CMD) or PowerShell (PS) on your windows machine
 
-2.)	Once CMD/PS is running type “docker run -it schmots1/netapp-ansible bash”  This will pull the latest image for the docker ansible container
+2.)	Once CMD/PS is running type “docker run -it -p 2010:2010/udp schmots1/netapp-ansible bash”  This will pull the latest image for the docker ansible container
+<a new purpposebuild container is coming>
 
 3.)	Once the image has been downloaded you will see [root@.........../]#. Enter “git clone https://github.com/infragilis/hci”
 
