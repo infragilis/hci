@@ -40,7 +40,8 @@ https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.ht
 # Steps to run the ping test:
 
 1.) Enter “cd /hci”  
-2.) run 'ansible-playbook hcipingtest.yml'  
+2.) Ensure you are connected into the network where the hardware is.  
+3.) run 'ansible-playbook hcipingtest.yml'  
 
 # Docker commands:
 
