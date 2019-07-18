@@ -28,58 +28,27 @@ Once all 3 prerequisite steps are completed, we can proceed
 Please follow your specific OS instructions form the official Ansible documentation here: 
 https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
-The following commands need to be run on the RedHat 7.5 host to complete the Ansible install, and dependencies on your server OS. The following is an example for RedHat 7.5,
-
-subscription-manager register --username your_username --password your_password  
-yum install python-pip python-wheel  
-pip install --upgrade pip  
-pip install ansible-lint  
-pip install netapp-lib   
-yum install rhel-7-server-extras-rpms  
-yum install http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm  
-yum install ansible  
-yum install git 
 
 # Steps to setup your container:
 
 1.)	Run either Command Prompt (CMD) or PowerShell (PS) on your windows machine
 
-2.)	Once CMD/PS is running type “docker run -it -p 2010:2010/udp schmots1/netapp-ansible bash”  This will pull the latest image for the docker ansible container
-<a new purpposebuild container is coming>
+2.)	Once CMD/PS is running type “docker run -it infragilis/docker-hci”  This will pull the latest image for the docker ansible container from docker hub.
 
-3.)	Once the image has been downloaded you will see [root@.........../]#. Enter “git clone https://github.com/infragilis/hci”
+3.)	Once the image has been downloaded you will see [root@.........../]#. Enter “cd /hci”
 
-4.)	This will trigger the cloning into ‘hci’ and you will enter your username for github then enter your password in github. This will pull the repository into the docker ansible container  
+# Steps to run the ping test:
 
-5.)	some useful docker commands:
+1.) run 'ansible-playbook hcipingtest.yml'
+
+# Docker commands:
+
+
+1.)	some useful docker commands:
     docker ps --all will display all running containers  
     docker attach <containername> will put your back in your container after you disconnect
     docker start <containername> will start you previously created container back up 
 
-# Running Startup script:
-
-Once you’ve successfully set up your container enter “cd hci”. 
-
-The “[root@............. /]#” should change to “[root@......... hci]#” then enter ” ./setup.sh”.  
-This will:
-
-Install Python3
-
-Upgrade Ansible to use Python3
-
-Pull in the repo with the ping module and copies it to the right location
-
-Converts the playbook from dos file format to linux
-
-Create missing files
 
 
-# NetApp cluster settings 
-Create a user and set the password for the ansible account:  
-Cluster::>security login create -user-or-group-name ansible -application ontapi -authentication-method password -role admin  
-
-Enable the API endpoint on the cluster in advanced mode:
-
-Cluster::> set adv  
-Cluster::> system services web modify -http-enabled true 
 
