@@ -29,7 +29,7 @@ Please follow your specific OS instructions form the official Ansible documentat
 https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
 
-# Steps to setup your container:
+# Steps to get your container:
 
 1.)	Run either Command Prompt (CMD) or PowerShell (PS) on your windows machine
 
