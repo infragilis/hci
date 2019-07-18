@@ -35,11 +35,12 @@ https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.ht
 
 2.)	Once CMD/PS is running type “docker run -it infragilis/docker-hci”  This will pull the latest image for the docker ansible container from docker hub.
 
-3.)	Once the image has been downloaded you will see [root@.........../]#. Enter “cd /hci”
+3.)	Once the image has been downloaded you will see [root@.........../]#. 
 
 # Steps to run the ping test:
 
-1.) run 'ansible-playbook hcipingtest.yml'
+1.) Enter “cd /hci”
+2.) run 'ansible-playbook hcipingtest.yml'
 
 # Docker commands:
 
