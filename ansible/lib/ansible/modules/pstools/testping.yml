@@ -5,4 +5,6 @@
   - name: run the module
     ping_test:
       report: 'ping_test.xlsx'
+      tenGonly: True
       limit: 60
+

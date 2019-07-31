@@ -92,7 +92,7 @@ class Target(threading.Thread):
     """
     This class expresses the final point-to-point ping test from source to target
     """
-    def __init__(self, source, target, sfapi):
+    def __init__(self, source, target, sfapi, tenGonly):
         threading.Thread.__init__(self)
         self._source = source
         self._target = target
@@ -104,6 +104,7 @@ class Target(threading.Thread):
         self._sipexception = None
         self._sipresult = None
         self._siptime = -1
+        self._tenGonly = tenGonly
 
     def run(self):
         """ 
@@ -122,12 +123,13 @@ class Target(threading.Thread):
         return error
 
     def go(self):
-        """Ping the node"""   
-        try:
-            self._mipresult, self._miptime = self._sfapi.test_ping(self._target["mip"])
-            self._mipresult = self.remap_error(self._mipresult)
-        except Exception as e:
-            self._mipexception = str(e)
+        """Ping the node"""
+        if not self._tenGonly:
+            try:
+                self._mipresult, self._miptime = self._sfapi.test_ping(self._target["mip"])
+                self._mipresult = self.remap_error(self._mipresult)
+            except Exception as e:
+                self._mipexception = str(e)
         try:
             self._sipresult, self._siptime = self._sfapi.test_ping(self._target["ip"], interface="Bond10G")
             self._sipresult = self.remap_error(self._sipresult)
@@ -143,7 +145,10 @@ class Target(threading.Thread):
         Many serial numbers are repeated - these are only fetched from the API on the source nodes and kept 
         in a map so we can fetch them for the target nodes efficiently
         """
-        mip = self._target["mip"]
+        if self._tenGonly:
+            mip = self._target["ip"]
+        else:
+            mip = self._target["mip"]
         if mip in serial_map:
             self._serial = serial_map[mip]
             return True
@@ -163,13 +168,17 @@ serials = set()
 
 class Source(threading.Thread):
     """This class expresses the source node sending pings to all the targets"""
-    def __init__(self, srcnode, allnodes):
+    def __init__(self, srcnode, allnodes, tenGonly):
         threading.Thread.__init__(self)
         self._srcnode = srcnode
         self._allnodes = allnodes
         self._serial = None
         self._exception = None
-        self._mip = self._srcnode["mip"]
+        self._tenGonly = tenGonly
+        if tenGonly:
+            self._mip = self._srcnode["ip"]
+        else:
+            self._mip = self._srcnode["mip"]
         self._results = []
 
     def run(self):
@@ -204,7 +213,7 @@ class Source(threading.Thread):
 
         # for all the nodes this source can see, generate a worker to do the point to point ping test
         for node in self._allnodes:
-            test = Target(self, self._allnodes[node], sfapi)
+            test = Target(self, self._allnodes[node], sfapi, self._tenGonly)
             self._results.append(test)
             threadLimiter.acquire()
             test.start()
@@ -229,7 +238,7 @@ def total_seconds(response):
         return -1.0 # never seen this, but paranoia is a virtue
     return (int(split[0]) * 60.0 * 60.0) + (int(split[1]) * 60.0) + int(split[2]) + (int(split[3]) / 1000000.0)
 
-def emit_report(nodes, tests, name):
+def emit_report(nodes, tests, name, tenGonly):
     """Create the report as an Excel spreadsheet"""
     workbook = Workbook(name)
     bold = workbook.add_format({'bold': True})
@@ -240,9 +249,9 @@ def emit_report(nodes, tests, name):
     gray = workbook.add_format({'bg_color':'#A0A0A0'})
     worksheet = workbook.add_worksheet()
     if len(nodes) == 0:
-        worksheet.write('A1', "\u2002" + "None Found", bold)
+        worksheet.write('A1', "\u2002None Found", bold)
     else:
-        worksheet.write('A1', "\u2002" + "Serial #", bold)
+        worksheet.write('A1', "\u2002Serial #", bold)
 
     row = 0
     col = 1
@@ -269,28 +278,31 @@ def emit_report(nodes, tests, name):
             # ignore loopback tests
             if row == 1 and col == 1:
                 # explain what we're doing
-                worksheet.write(row, col, "Bond1G / Bond10G", gray)
+                if tenGonly:
+                    worksheet.write(row, col, "\u2002Bond10G", gray)
+                else:
+                    worksheet.write(row, col, "\u2002Bond1G / Bond10G", gray)
             else:
                 worksheet.write(row, col, "", gray)
         else:
             # construct result string and track errors
             error = 0
             message = ""
-            if not node._mipresult:
-                error += 1
-                if node._mipexception:
-                    message += node._mipexception
-                else:
-                    message += "Unknown error"
-            else:
-                if not node._mipresult == 'Success':
+            if not tenGonly:
+                if not node._mipresult:
                     error += 1
-                    message += node._mipresult
+                    if node._mipexception:
+                        message += node._mipexception
+                    else:
+                        message += "Unknown error"
                 else:
-                    seconds = total_seconds(node._miptime)
-                    message += "{:.6f}".format(seconds)
-
-            message += " / "
+                    if not node._mipresult == 'Success':
+                        error += 1
+                        message += node._mipresult
+                    else:
+                        seconds = total_seconds(node._miptime)
+                        message += "\u2002{:.6f}".format(seconds)
+                message += " / "
 
             if not node._sipresult:
                 error += 1
@@ -304,7 +316,7 @@ def emit_report(nodes, tests, name):
                     message += node._sipresult
                 else:
                     seconds = total_seconds(node._siptime)
-                    message += "{:.6f}".format(seconds)
+                    message += "\u2002{:.6f}".format(seconds)
 
             if 2 == error:
                 worksheet.write(row, col, message, red)
@@ -325,7 +337,10 @@ def emit_report(nodes, tests, name):
             unique_mips.add(test ._mip)
 
     # fix the width
-    worksheet.set_column(0, maxcol, 25)
+    if tenGonly:
+        worksheet.set_column(0, maxcol, 15)
+    else:
+        worksheet.set_column(0, maxcol, 25)
     workbook.close()
 
 def ping(module):
@@ -337,7 +352,7 @@ def ping(module):
     tests = []
     # create the source node workers, respecting our thread limit
     for source in beacons:
-        test = Source(beacons[source], beacons)
+        test = Source(beacons[source], beacons, module.params['tenGonly'])
         tests.append(test)
         threadLimiter.acquire()
         test.start()
@@ -359,13 +374,14 @@ def ping(module):
             passed.append(test)
 
     # create the report
-    emit_report(sorted(passed), tests, module.params['report'])
+    emit_report(sorted(passed), tests, module.params['report'], module.params['tenGonly'])
 
 def run_module():
     """Define available arguments/parameters a user can pass to the module"""
     module_args = dict(
         report=dict(type='str', required=True),
-        limit=dict(type='int', required=False)
+        limit=dict(type='int', required=False),
+        tenGonly=dict(type='bool', required=False)
     )
 
     # seed the result dict in the object
