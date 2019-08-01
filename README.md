@@ -36,7 +36,7 @@ https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.ht
 
 # Steps to run the ping test:
 
-1.) Ensure you are connected into the network where the hardware is.  You will need two NICs on your laptop, one connected to the 1G (management) network and one connected to the 10G (storage) network.
+1.) Ensure you are connected into the network where the hardware is.  You will need to be connected to the 10G (storage) network.
 2.) Run 'ansible-playbook hcipingtest.yml'  
 3.) Press 'ctrl+p' then 'ctrl+q' to detach from the container and leave it running
 4.) Find the container ID by typing 'docker ps'.  You will see output like this:
