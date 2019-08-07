@@ -41,7 +41,7 @@ https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.ht
 3.) Press 'ctrl+p' then 'ctrl+q' to detach from the container and leave it running.  
 4.) Find the container ID by typing 'docker ps'.  You will see output like this:  
 	CONTAINER ID        IMAGE                   COMMAND             CREATED             STATUS              PORTS                      NAMES
-	56a6962e752a        infragilis/docker-hci   "/bin/bash"         7 minutes ago       Up 7 minutes          0.0.0.0:2010->2010/udp   loving_stallman. 
+	56a6962e752a        infragilis/docker-hci   "/bin/bash"         7 minutes ago       Up 7 minutes          0.0.0.0:2010->2010/udp   loving_stallman.  
 5.) Copy the report file from the container: 'docker cp 56a6962e752a:/hci/ping_test.xlsx .'  
 6.) Open ping_text.xlsx with Excel. 
 
